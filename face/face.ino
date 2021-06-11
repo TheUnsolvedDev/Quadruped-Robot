@@ -59,13 +59,17 @@ void angry() {
   display.fillTriangle (0, 0, 54, 26, 118, 0, BLACK); 
   display.display();
 }
+void (*func_ptr[6])(void) = {normal,annoy,angry_annoy,sad,happy,angry};
+
 void setup() {
   Serial.begin(9600);
   if(!display.begin(SSD1306_SWITCHCAPVCC, 0x3C)) { 
     Serial.println(F("SSD1306 allocation failed"));
     for(;;); // Don't proceed, loop forever
   }
-
+  
+//  blink_normal();
+}
 }
 
 void loop() {
