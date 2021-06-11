@@ -21,7 +21,9 @@
 #include "main.h"
 #include "cmsis_os.h"
 #include "usb_host.h"
-
+#include "fonts.h"
+#include "ssd1306.h"
+#include "test.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 
@@ -74,25 +76,27 @@ void StartDefaultTask(void *argument);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 
+void normal() {
+	SSD1306_Fill(0);
+	SSD1306_DrawFilledCircle(50, 15, 12,1);
+	SSD1306_DrawFilledCircle(82,20,7,1);
+	SSD1306_UpdateScreen();
+}
+
+void annoy()
+{
+	SSD1306_Fill(0);
+	SSD1306_DrawLine(40, 15, 60,15,1);
+	SSD1306_DrawLine(72,20,87,20,1);
+	SSD1306_UpdateScreen();
+}
+
 /* USER CODE END 0 */
 
 /**
   * @brief  The application entry point.
   * @retval int
   */
-
-void led(void *parameter)
-{
-	TickType_t xDelay = 500/portTICK_PERIOD_MS;
-	for (;;)
-	{
-		HAL_GPIO_WritePin(GPIOD, GPIO_PIN_12|GPIO_PIN_13|GPIO_PIN_14|GPIO_PIN_15, GPIO_PIN_RESET);
-		vTaskDelay(xDelay);
-		HAL_GPIO_WritePin(GPIOD, GPIO_PIN_12|GPIO_PIN_13|GPIO_PIN_14|GPIO_PIN_15, GPIO_PIN_SET);
-		vTaskDelay(xDelay);
-	}
-}
-
 int main(void)
 {
   /* USER CODE BEGIN 1 */
@@ -120,14 +124,28 @@ int main(void)
   MX_I2C1_Init();
   MX_I2S3_Init();
   MX_SPI1_Init();
-  /* USER CODE BEGIN 2 */
-  xTaskCreate(led,                           // Task Pointer
-		  	  (const char* const)"led_gate", // Task Name
-			  configMINIMAL_STACK_SIZE,      // Stack Depth
-			  0,                             // Parameters to pass to stack
-			  2,                             // Task Priority
-			  0);                            // Pass handle to create task
 
+  /* USER CODE BEGIN 2 */
+  SSD1306_Init();
+  SSD1306_GotoXY(0, 0);
+  SSD1306_Puts("HELLO",&Font_11x18 ,1);
+  SSD1306_GotoXY(10,30);
+  SSD1306_Puts("WORLD :)", &Font_11x18, 1);
+  SSD1306_UpdateScreen();
+
+  HAL_Delay(2000);
+
+  SSD1306_ScrollRight(0x00, 0x0f);
+  HAL_Delay(2000);
+  SSD1306_ScrollLeft(0x00, 0x0f);
+  HAL_Delay(2000);
+
+  SSD1306_Stopscroll();
+  SSD1306_UpdateScreen();
+
+  normal();
+  HAL_Delay(2000);
+  annoy();
   /* USER CODE END 2 */
 
   /* Init scheduler */
@@ -170,7 +188,6 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
@@ -243,7 +260,7 @@ static void MX_I2C1_Init(void)
 
   /* USER CODE END I2C1_Init 1 */
   hi2c1.Instance = I2C1;
-  hi2c1.Init.ClockSpeed = 100000;
+  hi2c1.Init.ClockSpeed = 400000;
   hi2c1.Init.DutyCycle = I2C_DUTYCYCLE_2;
   hi2c1.Init.OwnAddress1 = 0;
   hi2c1.Init.AddressingMode = I2C_ADDRESSINGMODE_7BIT;
