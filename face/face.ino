@@ -67,29 +67,24 @@ void setup() {
     Serial.println(F("SSD1306 allocation failed"));
     for(;;); // Don't proceed, loop forever
   }
-  
-//  blink_normal();
 }
+
+
+void faces(){
+  while(true){
+    int num = rand()%1000;
+    display.display();
+    delay(200);
+    display.clearDisplay();
+    for(int i=0;i<7;i++)
+    {
+      (*func_ptr[rand()%6])();
+      delay(num);
+    }
+    display.clearDisplay();
+  }
 }
 
 void loop() {
-
-  display.display();
-  delay(2000); 
-
-  display.clearDisplay();
-
-  normal();
-  delay(2000);
-  annoy();
-  delay(2000);
-  angry_annoy();
-  delay(2000);
-  sad();
-  delay(2000);
-  happy();
-  delay(2000);
-  angry();
-  delay(2000);
-
+  faces();
 }
