@@ -75,7 +75,6 @@ void StartDefaultTask(void *argument);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-
 void normal() {
 	SSD1306_Fill(0);
 	SSD1306_DrawFilledCircle(50, 15, 12,1);
@@ -91,6 +90,60 @@ void annoy()
 	SSD1306_UpdateScreen();
 }
 
+void angry_annoy()
+{
+	SSD1306_Fill(0);
+	SSD1306_DrawFilledCircle(42, 10, 20,1);
+	SSD1306_DrawFilledCircle(82, 10, 15,1);
+	SSD1306_DrawFilledRectangle(0, 0, 128, 15,0);
+	SSD1306_DrawFilledRectangle(0, 40,128, 15,0);
+	SSD1306_UpdateScreen();
+}
+
+void sad()
+{
+	SSD1306_Fill(0);
+	SSD1306_DrawFilledCircle(42,10,17,1);
+	SSD1306_DrawFilledCircle(82,10,15,1);
+	SSD1306_DrawFilledTriangle(0, 0, 0, 35, 78, 0, 0);
+	SSD1306_DrawFilledTriangle(50, 0, 128, 35, 128,0, 0);
+	SSD1306_UpdateScreen();
+}
+
+void happy(){
+    SSD1306_Fill(0);
+    SSD1306_DrawFilledCircle(42, 25, 15, 1);
+    SSD1306_DrawFilledCircle(82, 25, 15, 1);
+    SSD1306_DrawFilledCircle(42, 33, 20, 0);
+    SSD1306_DrawFilledCircle(82, 33, 20, 0);
+    SSD1306_UpdateScreen();
+}
+
+void angry(){
+    SSD1306_Fill(0);
+    SSD1306_DrawFilledCircle(42, 10, 18, 1);
+    SSD1306_DrawFilledCircle(82, 10, 12, 1);
+    SSD1306_DrawFilledTriangle(0, 0, 54, 26, 118, 0, 0);
+    SSD1306_UpdateScreen();
+}
+
+void (*func_ptr[6])(void) = {normal,annoy,angry_annoy,sad,happy,angry};
+
+void faces(){
+  while(1){
+    int num = rand()%1000;
+    SSD1306_UpdateScreen();
+    HAL_Delay(200);
+    SSD1306_Fill(0);
+    SSD1306_UpdateScreen();
+    for(int i=0;i<7;i++)
+    {
+      (*func_ptr[rand()%6])();
+      HAL_Delay(num);
+    }
+    SSD1306_Fill(0);
+  }
+}
 /* USER CODE END 0 */
 
 /**
@@ -127,25 +180,24 @@ int main(void)
 
   /* USER CODE BEGIN 2 */
   SSD1306_Init();
-  SSD1306_GotoXY(0, 0);
-  SSD1306_Puts("HELLO",&Font_11x18 ,1);
-  SSD1306_GotoXY(10,30);
-  SSD1306_Puts("WORLD :)", &Font_11x18, 1);
+  void (*func_ptr[6])(void) = {normal,annoy,angry_annoy,sad,happy,angry};
+//  SSD1306_GotoXY(0, 0);
+//  SSD1306_Puts("HELLO",&Font_11x18 ,1);
+//  SSD1306_GotoXY(10,30);
+//  SSD1306_Puts("WORLD :)", &Font_11x18, 1);
+//  SSD1306_UpdateScreen();
+//
+//  HAL_Delay(2000);
+//
+//  SSD1306_ScrollRight(0x00, 0x0f);
+//  HAL_Delay(2000);
+//  SSD1306_ScrollLeft(0x00, 0x0f);
+//  HAL_Delay(2000);
+
+//  SSD1306_Stopscroll();
   SSD1306_UpdateScreen();
 
-  HAL_Delay(2000);
-
-  SSD1306_ScrollRight(0x00, 0x0f);
-  HAL_Delay(2000);
-  SSD1306_ScrollLeft(0x00, 0x0f);
-  HAL_Delay(2000);
-
-  SSD1306_Stopscroll();
-  SSD1306_UpdateScreen();
-
-  normal();
-  HAL_Delay(2000);
-  annoy();
+  faces();
   /* USER CODE END 2 */
 
   /* Init scheduler */
@@ -197,6 +249,7 @@ int main(void)
   * @brief System Clock Configuration
   * @retval None
   */
+
 void SystemClock_Config(void)
 {
   RCC_OscInitTypeDef RCC_OscInitStruct = {0};
