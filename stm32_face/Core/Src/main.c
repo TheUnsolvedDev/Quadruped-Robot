@@ -76,25 +76,25 @@ void StartDefaultTask(void *argument);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 void normal() {
-	SSD1306_Fill(0);
-	SSD1306_DrawFilledCircle(50, 15, 12,1);
-	SSD1306_DrawFilledCircle(82,20,7,1);
-	SSD1306_UpdateScreen();
+    SSD1306_Fill(0);
+    SSD1306_DrawFilledCircle(50, 15, 12,1);
+    SSD1306_DrawFilledCircle(82,20,7,1);
+    SSD1306_UpdateScreen();
 }
 
 void annoy()
 {
-	SSD1306_Fill(0);
-	SSD1306_DrawLine(40, 15, 60,15,1);
-	SSD1306_DrawLine(72,20,87,20,1);
-	SSD1306_UpdateScreen();
+    SSD1306_Fill(0);
+    SSD1306_DrawLine(40, 15, 60,15,1);
+    SSD1306_DrawLine(72,20,87,20,1);
+    SSD1306_UpdateScreen();
 }
 
 void angry_annoy()
 {
-	SSD1306_Fill(0);
-	SSD1306_DrawFilledCircle(42, 10, 20,1);
-	SSD1306_DrawFilledCircle(82, 10, 15,1);
+    SSD1306_Fill(0);
+    SSD1306_DrawFilledCircle(42, 10, 20,1);
+    SSD1306_DrawFilledCircle(82, 10, 15,1);
 	SSD1306_DrawFilledRectangle(0, 0, 128, 15,0);
 	SSD1306_DrawFilledRectangle(0, 40,128, 15,0);
 	SSD1306_UpdateScreen();
@@ -130,16 +130,16 @@ void angry(){
 void (*func_ptr[6])(void) = {normal,annoy,angry_annoy,sad,happy,angry};
 
 void faces(){
-  while(1){
-    int num = rand()%1000;
-    SSD1306_UpdateScreen();
-    HAL_Delay(200);
-    SSD1306_Fill(0);
-    SSD1306_UpdateScreen();
+  	while(1){
+		int num = rand()%1000;
+		SSD1306_UpdateScreen();
+		HAL_Delay(200);
+		SSD1306_Fill(0);
+		SSD1306_UpdateScreen();
     for(int i=0;i<7;i++)
     {
-      (*func_ptr[rand()%6])();
-      HAL_Delay(num);
+		  (*func_ptr[rand()%6])();
+		  HAL_Delay(num);
     }
     SSD1306_Fill(0);
   }
