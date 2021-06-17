@@ -169,7 +169,8 @@ int main(void)
 
 //  SSD1306_UpdateScreen();
 //
-  faces();
+  xTaskHandle HT;
+  xTaskCreate(faces, "face_show", configMINIMAL_STACK_SIZE, 0, tskIDLE_PRIORITY, &HT);
   /* USER CODE END 2 */
 
   /* Init scheduler */
