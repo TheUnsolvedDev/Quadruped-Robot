@@ -1,0 +1,2 @@
+usb_host.c:69:6:MX_USB_HOST_Init	8	static
+usb_host.c:96:13:USBH_UserProcess	16	static

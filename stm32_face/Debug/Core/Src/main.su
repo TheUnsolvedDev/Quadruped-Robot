@@ -1,0 +1,12 @@
+main.c:83:6:debugsy	16	static
+main.c:106:6:faces	32	static
+main.c:149:5:main	24	static
+main.c:238:6:SystemClock_Config	104	static
+main.c:290:13:MX_I2C1_Init	8	static
+main.c:324:13:MX_I2S3_Init	8	static
+main.c:358:13:MX_SPI1_Init	8	static
+main.c:396:13:MX_USART2_UART_Init	8	static
+main.c:429:13:MX_GPIO_Init	56	static
+main.c:527:6:StartDefaultTask	16	static
+main.c:548:6:HAL_TIM_PeriodElapsedCallback	16	static
+main.c:565:6:Error_Handler	4	static,ignoring_inline_asm

@@ -21,13 +21,13 @@
 #include "main.h"
 #include "cmsis_os.h"
 #include "usb_host.h"
+
+/* Private includes ----------------------------------------------------------*/
+/* USER CODE BEGIN Includes */
 #include "fonts.h"
 #include "ssd1306.h"
 #include "test.h"
 #include "anim.h"
-/* Private includes ----------------------------------------------------------*/
-/* USER CODE BEGIN Includes */
-
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -51,6 +51,8 @@ I2S_HandleTypeDef hi2s3;
 
 SPI_HandleTypeDef hspi1;
 
+UART_HandleTypeDef huart2;
+
 /* Definitions for defaultTask */
 osThreadId_t defaultTaskHandle;
 const osThreadAttr_t defaultTask_attributes = {
@@ -59,7 +61,7 @@ const osThreadAttr_t defaultTask_attributes = {
   .priority = (osPriority_t) osPriorityNormal,
 };
 /* USER CODE BEGIN PV */
-
+uint8_t bufftx[10] = "Hello!!\n\r";
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -68,6 +70,7 @@ static void MX_GPIO_Init(void);
 static void MX_I2C1_Init(void);
 static void MX_I2S3_Init(void);
 static void MX_SPI1_Init(void);
+static void MX_USART2_UART_Init(void);
 void StartDefaultTask(void *argument);
 
 /* USER CODE BEGIN PFP */
@@ -77,9 +80,30 @@ void StartDefaultTask(void *argument);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 
+void debugsy(void *parameters){
+	for(;;){
+	  SSD1306_GotoXY(0, 0);
+	  SSD1306_Puts("HELLO",&Font_11x18 ,1);
+	  SSD1306_GotoXY(10,30);
+	  SSD1306_Puts("WORLD :)", &Font_11x18, 1);
+	  SSD1306_UpdateScreen();
 
+	  HAL_Delay(2000);
 
-void faces(){
+	  SSD1306_ScrollRight(0x00, 0x0f);
+	  HAL_Delay(2000);
+	  SSD1306_ScrollLeft(0x00, 0x0f);
+	  HAL_Delay(2000);
+
+	  SSD1306_Stopscroll();
+	  SSD1306_Clear();
+
+	  SSD1306_UpdateScreen();
+	}
+	vTaskDelete(NULL);
+}
+
+void faces(void *parameters){
 	int times = 0;
   while(1){
 	    SSD1306_DrawBitmap(0, 0, face1, 128, 64, 1);
@@ -113,6 +137,8 @@ void faces(){
 		HAL_Delay(times);
 		SSD1306_Clear();
   }
+
+  vTaskDelete(NULL);
 }
 /* USER CODE END 0 */
 
@@ -147,30 +173,16 @@ int main(void)
   MX_I2C1_Init();
   MX_I2S3_Init();
   MX_SPI1_Init();
-
+  MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
   SSD1306_Init();
 //  void (*func_ptr[6])(void) = {normal,annoy,angry_annoy,sad,happy,angry};
-//  SSD1306_GotoXY(0, 0);
-//  SSD1306_Puts("HELLO",&Font_11x18 ,1);
-//  SSD1306_GotoXY(10,30);
-//  SSD1306_Puts("WORLD :)", &Font_11x18, 1);
-//  SSD1306_UpdateScreen();
-//
-//  HAL_Delay(2000);
-//
-//  SSD1306_ScrollRight(0x00, 0x0f);
-//  HAL_Delay(2000);
-//  SSD1306_ScrollLeft(0x00, 0x0f);
-//  HAL_Delay(2000);
-//
-//  SSD1306_Stopscroll();
-//  SSD1306_Clear();
 
-//  SSD1306_UpdateScreen();
 //
-  xTaskHandle HT;
-  xTaskCreate(faces, "face_show", configMINIMAL_STACK_SIZE, 0, tskIDLE_PRIORITY, &HT);
+  xTaskHandle HT1,HT2;
+  xTaskCreate(faces, "face_show", configMINIMAL_STACK_SIZE, 0, tskIDLE_PRIORITY, &HT1);
+//  xTaskCreate(debugsy, "debugging", configMINIMAL_STACK_SIZE, 0, tskIDLE_PRIORITY, &HT2);
+//  vTaskStartScheduler();
   /* USER CODE END 2 */
 
   /* Init scheduler */
@@ -213,6 +225,7 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
+
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
@@ -372,6 +385,39 @@ static void MX_SPI1_Init(void)
   /* USER CODE BEGIN SPI1_Init 2 */
 
   /* USER CODE END SPI1_Init 2 */
+
+}
+
+/**
+  * @brief USART2 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_USART2_UART_Init(void)
+{
+
+  /* USER CODE BEGIN USART2_Init 0 */
+
+  /* USER CODE END USART2_Init 0 */
+
+  /* USER CODE BEGIN USART2_Init 1 */
+
+  /* USER CODE END USART2_Init 1 */
+  huart2.Instance = USART2;
+  huart2.Init.BaudRate = 115200;
+  huart2.Init.WordLength = UART_WORDLENGTH_8B;
+  huart2.Init.StopBits = UART_STOPBITS_1;
+  huart2.Init.Parity = UART_PARITY_NONE;
+  huart2.Init.Mode = UART_MODE_TX_RX;
+  huart2.Init.HwFlowCtl = UART_HWCONTROL_NONE;
+  huart2.Init.OverSampling = UART_OVERSAMPLING_16;
+  if (HAL_UART_Init(&huart2) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN USART2_Init 2 */
+
+  /* USER CODE END USART2_Init 2 */
 
 }
 
