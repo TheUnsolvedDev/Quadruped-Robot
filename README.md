@@ -6,6 +6,8 @@ Quadruped Robot – It is a four-legged walking robot which is a bionic replica 
 
 # Glimpse of out project
 
+
 ![alt text](./static/j.jpg)
+
 
 
