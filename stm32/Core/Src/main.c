@@ -38,7 +38,7 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-#define SERVO_COUNT 12
+#define SERVO_COUNT 4
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -59,12 +59,12 @@ UART_HandleTypeDef huart2;
 /* Definitions for defaultTask */
 osThreadId_t defaultTaskHandle;
 const osThreadAttr_t defaultTask_attributes = {
-    .name = "defaultTask",
-    .stack_size = 128 * 4,
-    .priority = (osPriority_t)osPriorityNormal,
+  .name = "defaultTask",
+  .stack_size = 128 * 4,
+  .priority = (osPriority_t) osPriorityNormal,
 };
 /* USER CODE BEGIN PV */
-uint8_t ActiveServo;
+uint8_t ActiveServo = 0;
 
 /* USER CODE END PV */
 
@@ -84,6 +84,25 @@ void StartDefaultTask(void *argument);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+
+void servos()
+{
+	while (1)
+	  {
+//		  PCA9685_SetServoAngle(0, 90);
+		  for (uint8_t Angle = 0; Angle < 90; Angle++) {
+			  PCA9685_SetServoAngle(ActiveServo, Angle);
+		    }
+		  HAL_Delay(500);
+		  for (uint16_t Angle = 90; Angle > 0; Angle--) {
+			  PCA9685_SetServoAngle(ActiveServo, Angle);
+		  }
+		  HAL_Delay(500);
+		  ActiveServo++;
+		  if (ActiveServo >= SERVO_COUNT) ActiveServo = 0;
+	  }
+//	vTaskDelete(NULL);
+}
 
 void debugsy(void *parameters)
 {
@@ -117,7 +136,7 @@ void faces(void *parameters)
   {
     SSD1306_DrawBitmap(0, 0, face1, 128, 64, 1);
     SSD1306_UpdateScreen();
-    HAL_Delay(times + 750);
+    HAL_Delay(times + 1000);
     SSD1306_Clear();
 
     SSD1306_DrawBitmap(0, 0, face2, 128, 64, 1);
@@ -185,25 +204,26 @@ int main(void)
   MX_I2C3_Init();
   /* USER CODE BEGIN 2 */
   SSD1306_Init();
-  PCA9685_Init(&hi2c1);
+  PCA9685_Init(&hi2c3);
+
   PCA9685_SetServoAngle(0, 0);
   PCA9685_SetServoAngle(1, 0);
   PCA9685_SetServoAngle(2, 0);
   PCA9685_SetServoAngle(3, 0);
-  PCA9685_SetServoAngle(4, 0);
-  PCA9685_SetServoAngle(5, 0);
-  PCA9685_SetServoAngle(6, 0);
-  PCA9685_SetServoAngle(7, 0);
-  PCA9685_SetServoAngle(8, 0);
-  PCA9685_SetServoAngle(9, 0);
-  PCA9685_SetServoAngle(10, 0);
-  PCA9685_SetServoAngle(11, 0);
-  //  void (*func_ptr[6])(void) = {normal,annoy,angry_annoy,sad,happy,angry};
+//  PCA9685_SetServoAngle(4, 0);
+//  PCA9685_SetServoAngle(5, 0);
+//  PCA9685_SetServoAngle(6, 0);
+//  PCA9685_SetServoAngle(7, 0);
+//  PCA9685_SetServoAngle(8, 0);
+//  PCA9685_SetServoAngle(9, 0);
+//  PCA9685_SetServoAngle(10, 0);
+//  PCA9685_SetServoAngle(11, 0);
 
   //
-  xTaskHandle HT1; //,HT2;
+  xTaskHandle HT1,HT2;
   xTaskCreate(faces, "face_show", configMINIMAL_STACK_SIZE, 0, tskIDLE_PRIORITY, &HT1);
-  //  xTaskCreate(debugsy, "debugging", configMINIMAL_STACK_SIZE, 0, tskIDLE_PRIORITY, &HT2);
+//  xTaskCreate(servos, "debugging", configMINIMAL_STACK_SIZE, 0, tskIDLE_PRIORITY, &HT2);
+  servos();
   //  vTaskStartScheduler();
   /* USER CODE END 2 */
 
@@ -284,7 +304,8 @@ void SystemClock_Config(void)
   }
   /** Initializes the CPU, AHB and APB buses clocks
   */
-  RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK | RCC_CLOCKTYPE_SYSCLK | RCC_CLOCKTYPE_PCLK1 | RCC_CLOCKTYPE_PCLK2;
+  RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
+                              |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
   RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
   RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV4;
@@ -334,6 +355,7 @@ static void MX_I2C1_Init(void)
   /* USER CODE BEGIN I2C1_Init 2 */
 
   /* USER CODE END I2C1_Init 2 */
+
 }
 
 /**
@@ -352,7 +374,7 @@ static void MX_I2C3_Init(void)
 
   /* USER CODE END I2C3_Init 1 */
   hi2c3.Instance = I2C3;
-  hi2c3.Init.ClockSpeed = 400000;
+  hi2c3.Init.ClockSpeed = 100000;
   hi2c3.Init.DutyCycle = I2C_DUTYCYCLE_2;
   hi2c3.Init.OwnAddress1 = 0;
   hi2c3.Init.AddressingMode = I2C_ADDRESSINGMODE_7BIT;
@@ -367,6 +389,7 @@ static void MX_I2C3_Init(void)
   /* USER CODE BEGIN I2C3_Init 2 */
 
   /* USER CODE END I2C3_Init 2 */
+
 }
 
 /**
@@ -400,6 +423,7 @@ static void MX_I2S3_Init(void)
   /* USER CODE BEGIN I2S3_Init 2 */
 
   /* USER CODE END I2S3_Init 2 */
+
 }
 
 /**
@@ -437,6 +461,7 @@ static void MX_SPI1_Init(void)
   /* USER CODE BEGIN SPI1_Init 2 */
 
   /* USER CODE END SPI1_Init 2 */
+
 }
 
 /**
@@ -469,6 +494,7 @@ static void MX_USART2_UART_Init(void)
   /* USER CODE BEGIN USART2_Init 2 */
 
   /* USER CODE END USART2_Init 2 */
+
 }
 
 /**
@@ -495,7 +521,8 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_WritePin(OTG_FS_PowerSwitchOn_GPIO_Port, OTG_FS_PowerSwitchOn_Pin, GPIO_PIN_SET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOD, LD4_Pin | LD3_Pin | LD5_Pin | LD6_Pin | Audio_RST_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOD, LD4_Pin|LD3_Pin|LD5_Pin|LD6_Pin
+                          |Audio_RST_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin : CS_I2C_SPI_Pin */
   GPIO_InitStruct.Pin = CS_I2C_SPI_Pin;
@@ -541,7 +568,8 @@ static void MX_GPIO_Init(void)
 
   /*Configure GPIO pins : LD4_Pin LD3_Pin LD5_Pin LD6_Pin
                            Audio_RST_Pin */
-  GPIO_InitStruct.Pin = LD4_Pin | LD3_Pin | LD5_Pin | LD6_Pin | Audio_RST_Pin;
+  GPIO_InitStruct.Pin = LD4_Pin|LD3_Pin|LD5_Pin|LD6_Pin
+                          |Audio_RST_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
@@ -558,6 +586,7 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Mode = GPIO_MODE_EVT_RISING;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(MEMS_INT2_GPIO_Port, &GPIO_InitStruct);
+
 }
 
 /* USER CODE BEGIN 4 */
@@ -584,7 +613,7 @@ void StartDefaultTask(void *argument)
   /* USER CODE END 5 */
 }
 
-/**
+ /**
   * @brief  Period elapsed callback in non blocking mode
   * @note   This function is called  when TIM6 interrupt took place, inside
   * HAL_TIM_IRQHandler(). It makes a direct call to HAL_IncTick() to increment
@@ -597,8 +626,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
   /* USER CODE BEGIN Callback 0 */
 
   /* USER CODE END Callback 0 */
-  if (htim->Instance == TIM6)
-  {
+  if (htim->Instance == TIM6) {
     HAL_IncTick();
   }
   /* USER CODE BEGIN Callback 1 */
@@ -621,7 +649,7 @@ void Error_Handler(void)
   /* USER CODE END Error_Handler_Debug */
 }
 
-#ifdef USE_FULL_ASSERT
+#ifdef  USE_FULL_ASSERT
 /**
   * @brief  Reports the name of the source file and the source line number
   *         where the assert_param error has occurred.
