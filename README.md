@@ -28,6 +28,6 @@ Nowadays there are many situations where human beings are unable to accomplish a
 	- STM32Cube IDE
 
 ## Libraries Used
-	- Adafruit PWM servo library (https://github.com/adafruit/Adafruit-PWM-Servo-Driver-Library).
-	- Adafruit SSD1306 Oled display driver (https://github.com/adafruit/Adafruit_SSD1306).
-	- FreeRtos (https://www.freertos.org/).
+	- Adafruit PWM servo library [a link](https://github.com/adafruit/Adafruit-PWM-Servo-Driver-Library).
+	- Adafruit SSD1306 Oled display driver [a link](https://github.com/adafruit/Adafruit_SSD1306).
+	- FreeRtos [a link](https://www.freertos.org/).
