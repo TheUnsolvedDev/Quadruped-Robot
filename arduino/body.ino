@@ -24,41 +24,94 @@ void setup() {
   
   pwm.setPWMFreq(60);  // Analog servos run at ~60 Hz updates
 
-  //yield();
-}
+  }
 
-// the code inside loop() has been updated by Robojax
 void loop() {
-  pwm.setPWM(0, 0, angleToPulse(160) );
-  pwm.setPWM(1, 0, angleToPulse(145) );
-  pwm.setPWM(2, 0, angleToPulse(155) );
+//  pwm.setPWM(0, 0, angleToPulse(120) );
+//  pwm.setPWM(1, 0, angleToPulse(110) );
+//  pwm.setPWM(2, 0, angleToPulse(110) );
+//  pwm.setPWM(3, 0, angleToPulse(100) );
+//  
+//  pwm.setPWM(4, 0, angleToPulse(10) );
+//  pwm.setPWM(6, 0, angleToPulse(10) );
+//  pwm.setPWM(5, 0, angleToPulse(10) );
+//  pwm.setPWM(7, 0, angleToPulse(180) );
+//
+
+
+  
+  pwm.setPWM(0, 0, angleToPulse(160));
+  pwm.setPWM(1, 0, angleToPulse(145));
+  pwm.setPWM(2, 0, angleToPulse(155));
   pwm.setPWM(3, 0, angleToPulse(60) );
   
   pwm.setPWM(4, 0, angleToPulse(85) );
-  pwm.setPWM(6, 0, angleToPulse(70) );
   pwm.setPWM(5, 0, angleToPulse(55) );
-  pwm.setPWM(7, 0, angleToPulse(150) );
+  pwm.setPWM(6, 0, angleToPulse(60) );
+  pwm.setPWM(7, 0, angleToPulse(150));
+
+  pwm.setPWM(8, 0, angleToPulse(90)  );
+  pwm.setPWM(9, 0, angleToPulse(120) );
+  pwm.setPWM(10, 0, angleToPulse(180));
+  pwm.setPWM(11, 0, angleToPulse(60) );
+  
+  delay(2000);
+  
+  rotation(30);
+          
+}
+
+
+void rotation(int rotate)
+{
+  //rotate leg 0 by angle (int)rotate
+  pwm.setPWM(4, 0, angleToPulse(115));
+  for( int angle = 90; angle>=90-rotate; angle -=10)
+   {  
+    pwm.setPWM(8, 0, angleToPulse(angle));  
+    delay(100);
+  }
+  pwm.setPWM(4, 0, angleToPulse(85));
+  delay(1000);
 
   
+  
+  pwm.setPWM(5, 0, angleToPulse(95));
+  for( int angle = 120; angle>=120-rotate; angle -=10)
+   {  
+    pwm.setPWM(9, 0, angleToPulse(angle));
+    delay(100);
+  }
+  pwm.setPWM(5, 0, angleToPulse(60));
+  delay(1000);
 
   
-//    for( int angle = 0; angle<180; angle +=1)
-//    {
-//    pwm.setPWM(7, 0, angleToPulse(angle) );
-//    delay(200);
-//  }
   
+  
+  pwm.setPWM(6, 0, angleToPulse(95));
+  for( int angle = 180; angle>=180-rotate; angle -=10)
+  {  
+    pwm.setPWM(10, 0, angleToPulse(angle));
+    delay(100);
+  }
+  pwm.setPWM(6, 0, angleToPulse(60));
+  delay(1000);
 
+  
+  
+  
+  pwm.setPWM(7, 0, angleToPulse(110));
+  for( int angle = 60; angle>=60-rotate; angle -=10)
+  {  
+    pwm.setPWM(11, 0, angleToPulse(angle));
+    delay(100);
+  }
+  pwm.setPWM(7, 0, angleToPulse(150));
   delay(1000);
  
 }
 
-/*
- * angleToPulse(int ang)
- * gets angle in degree and returns the pulse width
- * also prints the value on seial monitor
- * written by Ahmad Nejrabi for Robojax, Robojax.com
- */
+
 int angleToPulse(int ang){
    int pulse = map(ang,0, 180, SERVOMIN,SERVOMAX);// map angle of 0 to 180 to Servo min and Servo max 
    Serial.print("Angle: ");Serial.print(ang);
