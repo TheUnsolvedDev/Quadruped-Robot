@@ -1,4 +1,4 @@
-# Spider-Bot :spider_web:
+# Quadruped Robot:
 
 As its name defines it, our robot is a basic representation of the spider movements but it will not perform exactly the same body moves since we are using only four legs instead of eight legs.
 
