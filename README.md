@@ -5,7 +5,7 @@ As its name defines it, our robot is a basic representation of the spider moveme
 Quadruped Robot – It is a four-legged walking robot which is a bionic replica of spider (Arachnid species) that uses their legs for movement and can perform some tasks either by human interaction or by its own.
 
 
-## Glimpse of out project
+## Glimpse of our project
 
 <img src="./static/video.gif" align="left" height=425px>
 Nowadays there are many situations where human beings are unable to accomplish a certain task in the real life such as finding missing person in forest for more than 24 hours and exploring a cave with lack of oxygen. In order to accomplish these difficult tasks, human being will have to rely on mobile robots. The significant challenge is to develop a self adaptive system for the mobile robots in adapting towards uncertain changes in the environment.
