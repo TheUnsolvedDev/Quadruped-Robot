@@ -13,6 +13,18 @@ void setup() {
   
   pwm.setPWMFreq(60);
   
+  init();
+  delay(2000);  
+  }
+
+void loop() {
+  delay(100);
+  walk();
+  rotation(ch,30);
+}
+
+void init()
+{
   pwm.setPWM(0, 0, angleToPulse(160));
   pwm.setPWM(1, 0, angleToPulse(145));
   pwm.setPWM(2, 0, angleToPulse(155));
@@ -27,13 +39,6 @@ void setup() {
   pwm.setPWM(9, 0, angleToPulse(145));
   pwm.setPWM(10,0, angleToPulse(160));
   pwm.setPWM(11,0, angleToPulse(60) );
-  delay(2000);  
-  }
-
-void loop() {
-  delay(100);
-  walk();
-  rotation(ch,30);
 }
 
 void rotation(char ch,int rotate)
@@ -70,20 +75,7 @@ void rotation(char ch,int rotate)
   pwm.setPWM(7, 0, angleToPulse(150));
   delay(500);
 
-  pwm.setPWM(0, 0, angleToPulse(160));
-  pwm.setPWM(1, 0, angleToPulse(145));
-  pwm.setPWM(2, 0, angleToPulse(155));
-  pwm.setPWM(3, 0, angleToPulse(60) );
-  
-  pwm.setPWM(4, 0, angleToPulse(85) );
-  pwm.setPWM(5, 0, angleToPulse(55) );
-  pwm.setPWM(6, 0, angleToPulse(140) );
-  pwm.setPWM(7, 0, angleToPulse(150));
-
-  pwm.setPWM(8, 0, angleToPulse(90) );
-  pwm.setPWM(9, 0, angleToPulse(145));
-  pwm.setPWM(10,0, angleToPulse(160));
-  pwm.setPWM(11,0, angleToPulse(60) );
+  init();
  
 }
 
