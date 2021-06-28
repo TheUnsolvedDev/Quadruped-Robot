@@ -20,7 +20,7 @@ Nowadays there are many situations where human beings are unable to accomplish a
 	- 3D printed chasis .
 	- Oled display (128x64).
 	- Capacitor (2200μF-6.3V).
-	- Power supply (5V-750mA).
+	- Power supply (5V-1.5A).
 
 
 ## Device and IDE
