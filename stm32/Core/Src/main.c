@@ -84,6 +84,26 @@ void StartDefaultTask(void *argument);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+void start_normal(void *parameters)
+{
+	while(1)
+	{
+		  PCA9685_SetServoAngle(0, 110);
+		  PCA9685_SetServoAngle(1, 100);
+		  PCA9685_SetServoAngle(2, 110);
+		  PCA9685_SetServoAngle(3, 45);
+		  HAL_Delay(500);
+		  PCA9685_SetServoAngle(4, 60);
+		  PCA9685_SetServoAngle(5, 40);
+		  PCA9685_SetServoAngle(6, 95);
+		  PCA9685_SetServoAngle(7, 110);
+		  PCA9685_SetServoAngle(8, 75);
+		  PCA9685_SetServoAngle(9, 100);
+		  PCA9685_SetServoAngle(10, 125);
+		  PCA9685_SetServoAngle(11, 35);
+	}
+	vTaskDelete(NULL);
+}
 
 void servos()
 {
@@ -91,6 +111,7 @@ void servos()
 	  {
 //		  PCA9685_SetServoAngle(0, 90);
 		  for (uint8_t Angle = 0; Angle < 90; Angle++) {
+			  HAL_Delay(100);
 			  PCA9685_SetServoAngle(ActiveServo, Angle);
 		    }
 		  HAL_Delay(500);
@@ -98,10 +119,10 @@ void servos()
 			  PCA9685_SetServoAngle(ActiveServo, Angle);
 		  }
 		  HAL_Delay(500);
-		  ActiveServo++;
-		  if (ActiveServo >= SERVO_COUNT) ActiveServo = 0;
+//		  ActiveServo++;
+//		  if (ActiveServo >= SERVO_COUNT) ActiveServo = 0;
 	  }
-//	vTaskDelete(NULL);
+	vTaskDelete(NULL);
 }
 
 void debugsy(void *parameters)
@@ -206,25 +227,14 @@ int main(void)
   SSD1306_Init();
   PCA9685_Init(&hi2c3);
 
-  PCA9685_SetServoAngle(0, 0);
-  PCA9685_SetServoAngle(1, 0);
-  PCA9685_SetServoAngle(2, 0);
-  PCA9685_SetServoAngle(3, 0);
-//  PCA9685_SetServoAngle(4, 0);
-//  PCA9685_SetServoAngle(5, 0);
-//  PCA9685_SetServoAngle(6, 0);
-//  PCA9685_SetServoAngle(7, 0);
-//  PCA9685_SetServoAngle(8, 0);
-//  PCA9685_SetServoAngle(9, 0);
-//  PCA9685_SetServoAngle(10, 0);
-//  PCA9685_SetServoAngle(11, 0);
+
 
   //
   xTaskHandle HT1,HT2;
   xTaskCreate(faces, "face_show", configMINIMAL_STACK_SIZE, 0, tskIDLE_PRIORITY, &HT1);
-//  xTaskCreate(servos, "debugging", configMINIMAL_STACK_SIZE, 0, tskIDLE_PRIORITY, &HT2);
-  servos();
-  //  vTaskStartScheduler();
+  xTaskCreate(start_normal, "debugging", configMINIMAL_STACK_SIZE, 0, tskIDLE_PRIORITY, &HT2);
+//  servos();
+   vTaskStartScheduler();
   /* USER CODE END 2 */
 
   /* Init scheduler */
@@ -374,7 +384,7 @@ static void MX_I2C3_Init(void)
 
   /* USER CODE END I2C3_Init 1 */
   hi2c3.Instance = I2C3;
-  hi2c3.Init.ClockSpeed = 100000;
+  hi2c3.Init.ClockSpeed = 400000;
   hi2c3.Init.DutyCycle = I2C_DUTYCYCLE_2;
   hi2c3.Init.OwnAddress1 = 0;
   hi2c3.Init.AddressingMode = I2C_ADDRESSINGMODE_7BIT;
