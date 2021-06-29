@@ -41,28 +41,28 @@ void rotation(char ch,int rotate)
     rotate=-rotate;
   }
   
-  pwm.setPWM(4, 0, angleToPulse(115));
+  pwm.setPWM(4, 0, angleToPulse(85+30));
   delay(100);
   pwm.setPWM(8, 0, angleToPulse(90-rotate));  
   delay(100);
   pwm.setPWM(4, 0, angleToPulse(85));
   delay(500);
 
-  pwm.setPWM(5, 0, angleToPulse(95));
+  pwm.setPWM(5, 0, angleToPulse(55+40));
   delay(100);
   pwm.setPWM(9, 0, angleToPulse(145-rotate));
   delay(100);
   pwm.setPWM(5, 0, angleToPulse(55));
   delay(500);
 
-  pwm.setPWM(6, 0, angleToPulse(170));  
+  pwm.setPWM(6, 0, angleToPulse(140+30));  
   delay(100);
   pwm.setPWM(10, 0, angleToPulse(160-rotate));
   delay(100);
   pwm.setPWM(6, 0, angleToPulse(140));
   delay(500);
   
-  pwm.setPWM(7, 0, angleToPulse(100));
+  pwm.setPWM(7, 0, angleToPulse(150-50));
   delay(100);
   pwm.setPWM(11, 0, angleToPulse(60-rotate));
   delay(100);
@@ -89,16 +89,16 @@ void rotation(char ch,int rotate)
 void walk(){
   
   // move leg
-  pwm.setPWM(7, 0, angleToPulse(100));
+  pwm.setPWM(7, 0, angleToPulse(150-50));
   delay(100);
-  pwm.setPWM(11, 0, angleToPulse(15));  
+  pwm.setPWM(11, 0, angleToPulse(60-45));  
   delay(100);
   pwm.setPWM(7, 0, angleToPulse(150));
   delay(100);
-  pwm.setPWM(4, 0, angleToPulse(125));
+  pwm.setPWM(4, 0, angleToPulse(85+40));
   delay(100);
-  pwm.setPWM(0, 0, angleToPulse(130));
-  pwm.setPWM(8, 0, angleToPulse(40));
+  pwm.setPWM(0, 0, angleToPulse(160-30));
+  pwm.setPWM(8, 0, angleToPulse(90-50));
   delay(100);
   pwm.setPWM(4, 0, angleToPulse(85));
   
@@ -107,30 +107,30 @@ void walk(){
   // push
   pwm.setPWM(0, 0, angleToPulse(160));
   pwm.setPWM(11, 0, angleToPulse(60));
-  pwm.setPWM(9, 0, angleToPulse(90));
-  pwm.setPWM(2, 0, angleToPulse(110));
+  pwm.setPWM(9, 0, angleToPulse(145-55));
+  pwm.setPWM(2, 0, angleToPulse(155-45));
   delay(100);
   pwm.setPWM(2, 0, angleToPulse(155));
 
   delay(100);
-  pwm.setPWM(6, 0, angleToPulse(180));
+  pwm.setPWM(6, 0, angleToPulse(140+40));
   delay(100);
-  pwm.setPWM(10, 0, angleToPulse(200));
+  pwm.setPWM(10, 0, angleToPulse(160+40));
   delay(100);
   pwm.setPWM(6, 0, angleToPulse(140));
   
   delay(100);
-  pwm.setPWM(5, 0, angleToPulse(95));
+  pwm.setPWM(5, 0, angleToPulse(55+40));
   delay(100);
-  pwm.setPWM(1, 0, angleToPulse(115));
-  pwm.setPWM(9, 0, angleToPulse(150));
+  pwm.setPWM(1, 0, angleToPulse(145-30));
+  pwm.setPWM(9, 0, angleToPulse(145+5));
   delay(100);
   pwm.setPWM(5, 0, angleToPulse(55));
   delay(100);
   // push  
   pwm.setPWM(1, 0, angleToPulse(145));
-  pwm.setPWM(3, 0, angleToPulse(95)); 
-  pwm.setPWM(10, 0, angleToPulse(150));
+  pwm.setPWM(3, 0, angleToPulse(60+35)); 
+  pwm.setPWM(10, 0, angleToPulse(150+10));
   pwm.setPWM(8, 0, angleToPulse(90));
   delay(100);
   pwm.setPWM(3, 0, angleToPulse(60));
