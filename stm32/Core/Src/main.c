@@ -128,52 +128,52 @@ void walk(void *parameters)
 	while(1)
 	{
 		PCA9685_SetServoAngle(7,110-50);
-			HAL_Delay(100);
-			PCA9685_SetServoAngle(11,45 - 45);
-			HAL_Delay(100);
-			PCA9685_SetServoAngle(7,110);
-			HAL_Delay(100);
-			PCA9685_SetServoAngle(4,60+40);
-			HAL_Delay(100);
-			PCA9685_SetServoAngle(0,110-30);
-			HAL_Delay(100);
-			PCA9685_SetServoAngle(8,75-50);
-			HAL_Delay(100);
-			PCA9685_SetServoAngle(4,60);
+		HAL_Delay(100);
+		PCA9685_SetServoAngle(11,45 - 45);
+		HAL_Delay(100);
+		PCA9685_SetServoAngle(7,110);
+		HAL_Delay(100);
+		PCA9685_SetServoAngle(4,60+40);
+		HAL_Delay(100);
+		PCA9685_SetServoAngle(0,110-30);
+		HAL_Delay(100);
+		PCA9685_SetServoAngle(8,75-50);
+		HAL_Delay(100);
+		PCA9685_SetServoAngle(4,60);
 
-			HAL_Delay(100);
-			PCA9685_SetServoAngle(0,110);
-			PCA9685_SetServoAngle(11,35);
-			PCA9685_SetServoAngle(9,100-45);
-			PCA9685_SetServoAngle(2,110-45);
-			HAL_Delay(100);
-			PCA9685_SetServoAngle(2,110);
+		HAL_Delay(100);
+		PCA9685_SetServoAngle(0,110);
+		PCA9685_SetServoAngle(11,35);
+		PCA9685_SetServoAngle(9,100-45);
+		PCA9685_SetServoAngle(2,110-45);
+		HAL_Delay(100);
+		PCA9685_SetServoAngle(2,110);
 
-			HAL_Delay(100);
-			PCA9685_SetServoAngle(10,105);
-			HAL_Delay(100);
-			PCA9685_SetServoAngle(6,95+40);
-			HAL_Delay(100);
-			PCA9685_SetServoAngle(10,145);
-			HAL_Delay(100);
-			PCA9685_SetServoAngle(6,95);
+		HAL_Delay(100);
+		PCA9685_SetServoAngle(10,105);
+		HAL_Delay(100);
+		PCA9685_SetServoAngle(6,95+40);
+		HAL_Delay(100);
+		PCA9685_SetServoAngle(10,145);
+		HAL_Delay(100);
+		PCA9685_SetServoAngle(6,95);
 
-			HAL_Delay(100);
-			PCA9685_SetServoAngle(5,40+40);
-			HAL_Delay(100);
-			PCA9685_SetServoAngle(1,110-30);
-			PCA9685_SetServoAngle(9,100+5);
-			HAL_Delay(100);
-			PCA9685_SetServoAngle(5,40);
-			HAL_Delay(100);
+		HAL_Delay(100);
+		PCA9685_SetServoAngle(5,40+40);
+		HAL_Delay(100);
+		PCA9685_SetServoAngle(1,110-30);
+		PCA9685_SetServoAngle(9,100+5);
+		HAL_Delay(100);
+		PCA9685_SetServoAngle(5,40);
+		HAL_Delay(100);
 
-			PCA9685_SetServoAngle(1,110);
-			PCA9685_SetServoAngle(3,45+35);
-			PCA9685_SetServoAngle(10,125+10);
-			PCA9685_SetServoAngle(8,75);
-			HAL_Delay(100);
-			PCA9685_SetServoAngle(3,45);
-			HAL_Delay(100);
+		PCA9685_SetServoAngle(1,110);
+		PCA9685_SetServoAngle(3,45+35);
+		PCA9685_SetServoAngle(10,125+10);
+		PCA9685_SetServoAngle(8,75);
+		HAL_Delay(100);
+		PCA9685_SetServoAngle(3,45);
+		HAL_Delay(100);
 	}
 	vTaskDelete(NULL);
 }
