@@ -24,13 +24,11 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
 #include "fonts.h"
 #include "ssd1306.h"
 #include "test.h"
 #include "anim.h"
 #include "pca9685.h"
-
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -91,13 +89,10 @@ void StartDefaultTask(void *argument);
 #define ANGLE_2_INIT 120
 #define ANGLE_3_INIT 45
 
-
 #define ANGLE_4_INIT 60
 #define ANGLE_5_INIT 35
 #define ANGLE_6_INIT 105
 #define ANGLE_7_INIT 110
-
-
 
 #define ANGLE_8_INIT 75
 #define ANGLE_9_INIT 100
@@ -108,22 +103,23 @@ void start_normal()
 {
 
 	PCA9685_SetServoAngle(0, ANGLE_0_INIT);
-	  PCA9685_SetServoAngle(1,ANGLE_1_INIT);
-	  PCA9685_SetServoAngle(2, ANGLE_2_INIT);
-	  PCA9685_SetServoAngle(3, ANGLE_3_INIT);
-	  HAL_Delay(500);
-	  PCA9685_SetServoAngle(4, ANGLE_4_INIT);
-	  PCA9685_SetServoAngle(5, ANGLE_5_INIT);
-	  PCA9685_SetServoAngle(6, ANGLE_6_INIT);
-	  PCA9685_SetServoAngle(7, ANGLE_7_INIT);
-	  PCA9685_SetServoAngle(8, ANGLE_8_INIT);
-	  PCA9685_SetServoAngle(9, ANGLE_9_INIT);
-	  PCA9685_SetServoAngle(10, ANGLE_10_INIT);
-	  PCA9685_SetServoAngle(11, ANGLE_11_INIT);
+	PCA9685_SetServoAngle(1, ANGLE_1_INIT);
+	PCA9685_SetServoAngle(2, ANGLE_2_INIT);
+	PCA9685_SetServoAngle(3, ANGLE_3_INIT);
+	HAL_Delay(500);
+	PCA9685_SetServoAngle(4, ANGLE_4_INIT);
+	PCA9685_SetServoAngle(5, ANGLE_5_INIT);
+	PCA9685_SetServoAngle(6, ANGLE_6_INIT);
+	PCA9685_SetServoAngle(7, ANGLE_7_INIT);
+	PCA9685_SetServoAngle(8, ANGLE_8_INIT);
+	PCA9685_SetServoAngle(9, ANGLE_9_INIT);
+	PCA9685_SetServoAngle(10, ANGLE_10_INIT);
+	PCA9685_SetServoAngle(11, ANGLE_11_INIT);
 	HAL_Delay(2000);
 }
 
-void reset(){
+void reset()
+{
 	PCA9685_SetServoAngle(0, 110);
 	PCA9685_SetServoAngle(1, 100);
 	PCA9685_SetServoAngle(2, 110);
@@ -160,116 +156,61 @@ void servos()
 	vTaskDelete(NULL);
 }
 
-
 void walk(void *parameters)
 {
-<<<<<<< Updated upstream
-	while(1)
-	{
-		PCA9685_SetServoAngle(7,110-50);
-		HAL_Delay(100);
-		PCA9685_SetServoAngle(11,45 - 45);
-		HAL_Delay(100);
-		PCA9685_SetServoAngle(7,110);
-		HAL_Delay(100);
-		PCA9685_SetServoAngle(4,60+40);
-		HAL_Delay(100);
-		PCA9685_SetServoAngle(0,110-30);
-		HAL_Delay(100);
-		PCA9685_SetServoAngle(8,75-50);
-		HAL_Delay(100);
-		PCA9685_SetServoAngle(4,60);
-
-		HAL_Delay(100);
-		PCA9685_SetServoAngle(0,110);
-		PCA9685_SetServoAngle(11,35);
-		PCA9685_SetServoAngle(9,100-45);
-		PCA9685_SetServoAngle(2,110-45);
-		HAL_Delay(100);
-		PCA9685_SetServoAngle(2,110);
-
-		HAL_Delay(100);
-		PCA9685_SetServoAngle(10,105);
-		HAL_Delay(100);
-		PCA9685_SetServoAngle(6,95+40);
-		HAL_Delay(100);
-		PCA9685_SetServoAngle(10,145);
-		HAL_Delay(100);
-		PCA9685_SetServoAngle(6,95);
-
-		HAL_Delay(100);
-		PCA9685_SetServoAngle(5,40+40);
-		HAL_Delay(100);
-		PCA9685_SetServoAngle(1,110-30);
-		PCA9685_SetServoAngle(9,100+5);
-		HAL_Delay(100);
-		PCA9685_SetServoAngle(5,40);
-		HAL_Delay(100);
-
-		PCA9685_SetServoAngle(1,110);
-		PCA9685_SetServoAngle(3,45+35);
-		PCA9685_SetServoAngle(10,125+10);
-		PCA9685_SetServoAngle(8,75);
-		HAL_Delay(100);
-		PCA9685_SetServoAngle(3,45);
-		HAL_Delay(100);
-=======
 	int delay_time = 100;
-	PCA9685_SetServoAngle(4, ANGLE_4_INIT+20);
+	PCA9685_SetServoAngle(4, ANGLE_4_INIT + 20);
 	HAL_Delay(delay_time);
-	PCA9685_SetServoAngle(8, ANGLE_8_INIT+20);
+	PCA9685_SetServoAngle(8, ANGLE_8_INIT + 20);
 	HAL_Delay(delay_time);
 	PCA9685_SetServoAngle(4, ANGLE_4_INIT);
 	HAL_Delay(delay_time);
 
 	while (1)
 	{
-//		STATE 1
-//		-----------------------------------------------------
-		PCA9685_SetServoAngle(7, ANGLE_7_INIT-30);
+		//		STATE 1
+		//		-----------------------------------------------------
+		PCA9685_SetServoAngle(7, ANGLE_7_INIT - 30);
 		HAL_Delay(delay_time);
 		PCA9685_SetServoAngle(3, ANGLE_3_INIT);
 		HAL_Delay(delay_time);
-		PCA9685_SetServoAngle(11, ANGLE_11_INIT-35);
+		PCA9685_SetServoAngle(11, ANGLE_11_INIT - 35);
 		HAL_Delay(delay_time);
 		PCA9685_SetServoAngle(7, ANGLE_7_INIT);
 		HAL_Delay(delay_time);
 		PCA9685_SetServoAngle(7, ANGLE_7_INIT);
 		HAL_Delay(delay_time);
-		PCA9685_SetServoAngle(4, ANGLE_4_INIT+20);
+		PCA9685_SetServoAngle(4, ANGLE_4_INIT + 20);
 		HAL_Delay(delay_time);
-		PCA9685_SetServoAngle(8, ANGLE_8_INIT-20);
+		PCA9685_SetServoAngle(8, ANGLE_8_INIT - 20);
 		HAL_Delay(delay_time);
 		PCA9685_SetServoAngle(4, ANGLE_4_INIT);
 		HAL_Delay(delay_time);
-		PCA9685_SetServoAngle(9, ANGLE_9_INIT-55);
+		PCA9685_SetServoAngle(9, ANGLE_9_INIT - 55);
 		PCA9685_SetServoAngle(11, ANGLE_11_INIT);
-		PCA9685_SetServoAngle(2, ANGLE_2_INIT-30);
+		PCA9685_SetServoAngle(2, ANGLE_2_INIT - 30);
 		HAL_Delay(delay_time);
 
-		PCA9685_SetServoAngle(6, ANGLE_6_INIT+30);
+		PCA9685_SetServoAngle(6, ANGLE_6_INIT + 30);
 		HAL_Delay(delay_time);
-		PCA9685_SetServoAngle(10, ANGLE_10_INIT+30);
+		PCA9685_SetServoAngle(10, ANGLE_10_INIT + 30);
 		HAL_Delay(delay_time);
 		PCA9685_SetServoAngle(2, ANGLE_2_INIT);
 		HAL_Delay(delay_time);
 		PCA9685_SetServoAngle(6, ANGLE_6_INIT);
 		HAL_Delay(delay_time);
 
-
-//		STATE 2
-		PCA9685_SetServoAngle(5, ANGLE_5_INIT+30);
+		//		STATE 2
+		PCA9685_SetServoAngle(5, ANGLE_5_INIT + 30);
 		HAL_Delay(delay_time);
 		PCA9685_SetServoAngle(9, ANGLE_9_INIT);
 		HAL_Delay(delay_time);
 		PCA9685_SetServoAngle(5, ANGLE_5_INIT);
 		HAL_Delay(delay_time);
-		PCA9685_SetServoAngle(8, ANGLE_8_INIT+20);
+		PCA9685_SetServoAngle(8, ANGLE_8_INIT + 20);
 		PCA9685_SetServoAngle(10, ANGLE_10_INIT);
-		PCA9685_SetServoAngle(3, ANGLE_3_INIT+20);
+		PCA9685_SetServoAngle(3, ANGLE_3_INIT + 20);
 		HAL_Delay(delay_time);
-
->>>>>>> Stashed changes
 	}
 	vTaskDelete(NULL);
 }
