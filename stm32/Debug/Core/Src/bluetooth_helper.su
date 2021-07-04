@@ -1,0 +1,2 @@
+bluetooth_helper.c:14:9:string_compare	32	static
+bluetooth_helper.c:28:6:Message_handler	8	static

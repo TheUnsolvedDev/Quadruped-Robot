@@ -29,6 +29,7 @@
 #include "test.h"
 #include "anim.h"
 #include "pca9685.h"
+#include <stdbool.h>
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -54,6 +55,8 @@ I2S_HandleTypeDef hi2s3;
 
 SPI_HandleTypeDef hspi1;
 
+TIM_HandleTypeDef htim2;
+
 UART_HandleTypeDef huart2;
 
 /* Definitions for defaultTask */
@@ -65,6 +68,7 @@ const osThreadAttr_t defaultTask_attributes = {
 };
 /* USER CODE BEGIN PV */
 uint8_t ActiveServo = 0;
+char rx_buffer[50];
 
 /* USER CODE END PV */
 
@@ -76,6 +80,7 @@ static void MX_I2S3_Init(void);
 static void MX_SPI1_Init(void);
 static void MX_USART2_UART_Init(void);
 static void MX_I2C3_Init(void);
+static void MX_TIM2_Init(void);
 void StartDefaultTask(void *argument);
 
 /* USER CODE BEGIN PFP */
@@ -116,108 +121,59 @@ void start_normal()
 	  PCA9685_SetServoAngle(7, ANGLE_7_INIT);
 	  PCA9685_SetServoAngle(8, ANGLE_8_INIT);
 	  PCA9685_SetServoAngle(9, ANGLE_9_INIT);
-	  PCA9685_SetServoAngle(10, ANGLE_10_INIT);
+	  PCA9685_SetServoAngle(10+2, ANGLE_10_INIT);
 	  PCA9685_SetServoAngle(11, ANGLE_11_INIT);
 	HAL_Delay(2000);
-}
-
-void reset(){
-	PCA9685_SetServoAngle(0, 110);
-	PCA9685_SetServoAngle(1, 100);
-	PCA9685_SetServoAngle(2, 110);
-	PCA9685_SetServoAngle(3, 45);
-	PCA9685_SetServoAngle(4, 60);
-	PCA9685_SetServoAngle(5, 40);
-	PCA9685_SetServoAngle(6, 95);
-	PCA9685_SetServoAngle(7, 110);
-	PCA9685_SetServoAngle(8, 75);
-	PCA9685_SetServoAngle(9, 100);
-	PCA9685_SetServoAngle(10, 105);
-	PCA9685_SetServoAngle(11, 35);
-}
-
-void servos()
-{
-	while (1)
-	{
-		//		  PCA9685_SetServoAngle(0, 90);
-		for (uint8_t Angle = 0; Angle < 90; Angle++)
-		{
-			HAL_Delay(100);
-			PCA9685_SetServoAngle(ActiveServo, Angle);
-		}
-		HAL_Delay(500);
-		for (uint16_t Angle = 90; Angle > 0; Angle--)
-		{
-			PCA9685_SetServoAngle(ActiveServo, Angle);
-		}
-		HAL_Delay(500);
-		//		  ActiveServo++;
-		//		  if (ActiveServo >= SERVO_COUNT) ActiveServo = 0;
-	}
-	vTaskDelete(NULL);
 }
 
 
 void walk(void *parameters)
 {
 	int delay_time = 100;
+	PCA9685_SetServoAngle(7, ANGLE_7_INIT-30);
+	HAL_Delay(delay_time);
+	PCA9685_SetServoAngle(3, ANGLE_3_INIT);
+	HAL_Delay(delay_time);
+	PCA9685_SetServoAngle(11, ANGLE_11_INIT-35);
+	HAL_Delay(delay_time);
+	PCA9685_SetServoAngle(7, ANGLE_7_INIT);
+	HAL_Delay(delay_time);
+	PCA9685_SetServoAngle(7, ANGLE_7_INIT);
+	HAL_Delay(delay_time);
 	PCA9685_SetServoAngle(4, ANGLE_4_INIT+20);
 	HAL_Delay(delay_time);
-	PCA9685_SetServoAngle(8, ANGLE_8_INIT+20);
+	PCA9685_SetServoAngle(8, ANGLE_8_INIT-20);
 	HAL_Delay(delay_time);
 	PCA9685_SetServoAngle(4, ANGLE_4_INIT);
 	HAL_Delay(delay_time);
+	PCA9685_SetServoAngle(9, ANGLE_9_INIT-55);
+	PCA9685_SetServoAngle(11, ANGLE_11_INIT);
+	PCA9685_SetServoAngle(2, ANGLE_2_INIT-30);
+	HAL_Delay(delay_time);
 
-	while (1)
-	{
-//		STATE 1
-//		-----------------------------------------------------
-		PCA9685_SetServoAngle(7, ANGLE_7_INIT-30);
-		HAL_Delay(delay_time);
-		PCA9685_SetServoAngle(3, ANGLE_3_INIT);
-		HAL_Delay(delay_time);
-		PCA9685_SetServoAngle(11, ANGLE_11_INIT-35);
-		HAL_Delay(delay_time);
-		PCA9685_SetServoAngle(7, ANGLE_7_INIT);
-		HAL_Delay(delay_time);
-		PCA9685_SetServoAngle(7, ANGLE_7_INIT);
-		HAL_Delay(delay_time);
-		PCA9685_SetServoAngle(4, ANGLE_4_INIT+20);
-		HAL_Delay(delay_time);
-		PCA9685_SetServoAngle(8, ANGLE_8_INIT-20);
-		HAL_Delay(delay_time);
-		PCA9685_SetServoAngle(4, ANGLE_4_INIT);
-		HAL_Delay(delay_time);
-		PCA9685_SetServoAngle(9, ANGLE_9_INIT-55);
-		PCA9685_SetServoAngle(11, ANGLE_11_INIT);
-		PCA9685_SetServoAngle(2, ANGLE_2_INIT-30);
-		HAL_Delay(delay_time);
-
-		PCA9685_SetServoAngle(6, ANGLE_6_INIT+30);
-		HAL_Delay(delay_time);
-		PCA9685_SetServoAngle(10, ANGLE_10_INIT+30);
-		HAL_Delay(delay_time);
-		PCA9685_SetServoAngle(2, ANGLE_2_INIT);
-		HAL_Delay(delay_time);
-		PCA9685_SetServoAngle(6, ANGLE_6_INIT);
-		HAL_Delay(delay_time);
+	PCA9685_SetServoAngle(6, ANGLE_6_INIT+30);
+	HAL_Delay(delay_time);
+	PCA9685_SetServoAngle(10+2, ANGLE_10_INIT+30);
+	HAL_Delay(delay_time);
+	PCA9685_SetServoAngle(2, ANGLE_2_INIT);
+	HAL_Delay(delay_time);
+	PCA9685_SetServoAngle(6, ANGLE_6_INIT);
+	HAL_Delay(delay_time);
+	PCA9685_SetServoAngle(10+2, ANGLE_10_INIT+30);
 
 
 //		STATE 2
-		PCA9685_SetServoAngle(5, ANGLE_5_INIT+30);
-		HAL_Delay(delay_time);
-		PCA9685_SetServoAngle(9, ANGLE_9_INIT);
-		HAL_Delay(delay_time);
-		PCA9685_SetServoAngle(5, ANGLE_5_INIT);
-		HAL_Delay(delay_time);
-		PCA9685_SetServoAngle(8, ANGLE_8_INIT+20);
-		PCA9685_SetServoAngle(10, ANGLE_10_INIT);
-		PCA9685_SetServoAngle(3, ANGLE_3_INIT+20);
-		HAL_Delay(delay_time);
+	PCA9685_SetServoAngle(5, ANGLE_5_INIT+30);
+	HAL_Delay(delay_time);
+	PCA9685_SetServoAngle(9, ANGLE_9_INIT);
+	HAL_Delay(delay_time);
+	PCA9685_SetServoAngle(5, ANGLE_5_INIT);
+	HAL_Delay(delay_time);
+	PCA9685_SetServoAngle(8, ANGLE_8_INIT+20);
+	PCA9685_SetServoAngle(10+2, ANGLE_10_INIT);
+	PCA9685_SetServoAngle(3, ANGLE_3_INIT+20);
+	HAL_Delay(delay_time);
 
-	}
-	vTaskDelete(NULL);
 }
 
 void debugsy(void *parameters)
@@ -243,6 +199,34 @@ void debugsy(void *parameters)
 		SSD1306_UpdateScreen();
 	}
 	vTaskDelete(NULL);
+}
+
+void bt_config(void *parameters)
+{
+	for(;;)
+	{
+		HAL_UART_Receive(&huart2, (uint8_t*)rx_buffer, 50, 500);
+		if(rx_buffer[0] == 'w')
+		{
+			//walking formation
+			int delay_time = 100;
+			PCA9685_SetServoAngle(4, ANGLE_4_INIT+20);
+			HAL_Delay(delay_time);
+			PCA9685_SetServoAngle(8, ANGLE_8_INIT+20);
+			HAL_Delay(delay_time);
+			PCA9685_SetServoAngle(4, ANGLE_4_INIT);
+			HAL_Delay(delay_time);
+
+			walk(0);
+//			xTaskCreate(walk, "walking", configMINIMAL_STACK_SIZE, 0, tskIDLE_PRIORITY, NULL);
+		}
+		if(rx_buffer[0] == 's')
+		{
+			start_normal();
+		}
+	}
+	vTaskDelete(NULL);
+
 }
 
 void faces(void *parameters)
@@ -318,6 +302,7 @@ int main(void)
   MX_SPI1_Init();
   MX_USART2_UART_Init();
   MX_I2C3_Init();
+  MX_TIM2_Init();
   /* USER CODE BEGIN 2 */
 	SSD1306_Init();
 	PCA9685_Init(&hi2c3);
@@ -325,9 +310,9 @@ int main(void)
 	start_normal();
 	xTaskHandle HT1, HT2;
 	xTaskCreate(faces, "face_show", configMINIMAL_STACK_SIZE, 0, tskIDLE_PRIORITY, &HT1);
-	xTaskCreate(walk, "debugging", configMINIMAL_STACK_SIZE, 0, tskIDLE_PRIORITY, &HT2);
-
-	vTaskStartScheduler();
+	xTaskCreate(bt_config, "bluetooth_check", configMINIMAL_STACK_SIZE, 0, tskIDLE_PRIORITY, &HT2);
+//
+//	vTaskStartScheduler();
 
   /* USER CODE END 2 */
 
@@ -570,6 +555,51 @@ static void MX_SPI1_Init(void)
 }
 
 /**
+  * @brief TIM2 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_TIM2_Init(void)
+{
+
+  /* USER CODE BEGIN TIM2_Init 0 */
+
+  /* USER CODE END TIM2_Init 0 */
+
+  TIM_ClockConfigTypeDef sClockSourceConfig = {0};
+  TIM_MasterConfigTypeDef sMasterConfig = {0};
+
+  /* USER CODE BEGIN TIM2_Init 1 */
+
+  /* USER CODE END TIM2_Init 1 */
+  htim2.Instance = TIM2;
+  htim2.Init.Prescaler = 720;
+  htim2.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim2.Init.Period = 1999;
+  htim2.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+  htim2.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+  if (HAL_TIM_Base_Init(&htim2) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
+  if (HAL_TIM_ConfigClockSource(&htim2, &sClockSourceConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
+  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
+  if (HAL_TIMEx_MasterConfigSynchronization(&htim2, &sMasterConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN TIM2_Init 2 */
+
+  /* USER CODE END TIM2_Init 2 */
+
+}
+
+/**
   * @brief USART2 Initialization Function
   * @param None
   * @retval None
@@ -585,7 +615,7 @@ static void MX_USART2_UART_Init(void)
 
   /* USER CODE END USART2_Init 1 */
   huart2.Instance = USART2;
-  huart2.Init.BaudRate = 115200;
+  huart2.Init.BaudRate = 9600;
   huart2.Init.WordLength = UART_WORDLENGTH_8B;
   huart2.Init.StopBits = UART_STOPBITS_1;
   huart2.Init.Parity = UART_PARITY_NONE;
@@ -626,8 +656,8 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_WritePin(GPIOC, OTG_FS_PowerSwitchOn_Pin|GPIO_PIN_8, GPIO_PIN_SET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOD, LD4_Pin|LD3_Pin|LD5_Pin|LD6_Pin
-                          |Audio_RST_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOD, BLUETOOTH_RESET_Pin|LD4_Pin|LD3_Pin|LD5_Pin
+                          |LD6_Pin|Audio_RST_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin : CS_I2C_SPI_Pin */
   GPIO_InitStruct.Pin = CS_I2C_SPI_Pin;
@@ -670,6 +700,13 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   GPIO_InitStruct.Alternate = GPIO_AF5_SPI2;
   HAL_GPIO_Init(CLK_IN_GPIO_Port, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : BLUETOOTH_RESET_Pin */
+  GPIO_InitStruct.Pin = BLUETOOTH_RESET_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
+  HAL_GPIO_Init(BLUETOOTH_RESET_GPIO_Port, &GPIO_InitStruct);
 
   /*Configure GPIO pins : LD4_Pin LD3_Pin LD5_Pin LD6_Pin
                            Audio_RST_Pin */

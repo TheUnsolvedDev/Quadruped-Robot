@@ -1,3 +1,4 @@
+"Core/Src/bluetooth_helper.o"
 "Core/Src/fonts.o"
 "Core/Src/freertos.o"
 "Core/Src/main.o"
