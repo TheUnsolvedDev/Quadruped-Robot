@@ -203,26 +203,32 @@ void debugsy(void *parameters)
 
 void bt_config(void *parameters)
 {
+	int state = 0;
 	for(;;)
 	{
 		HAL_UART_Receive(&huart2, (uint8_t*)rx_buffer, 50, 500);
 		if(rx_buffer[0] == 'w')
 		{
 			//walking formation
-			int delay_time = 100;
-			PCA9685_SetServoAngle(4, ANGLE_4_INIT+20);
-			HAL_Delay(delay_time);
-			PCA9685_SetServoAngle(8, ANGLE_8_INIT+20);
-			HAL_Delay(delay_time);
-			PCA9685_SetServoAngle(4, ANGLE_4_INIT);
-			HAL_Delay(delay_time);
+			if(!state)
+			{
+				int delay_time = 100;
+				PCA9685_SetServoAngle(4, ANGLE_4_INIT+20);
+				HAL_Delay(delay_time);
+				PCA9685_SetServoAngle(8, ANGLE_8_INIT+20);
+				HAL_Delay(delay_time);
+				PCA9685_SetServoAngle(4, ANGLE_4_INIT);
+				HAL_Delay(delay_time);
+				state = !state;
+			}
 
 			walk(0);
 //			xTaskCreate(walk, "walking", configMINIMAL_STACK_SIZE, 0, tskIDLE_PRIORITY, NULL);
-		}
+		}else
 		if(rx_buffer[0] == 's')
 		{
 			start_normal();
+			state = !state;
 		}
 	}
 	vTaskDelete(NULL);
