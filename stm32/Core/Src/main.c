@@ -24,12 +24,14 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+
 #include "fonts.h"
 #include "ssd1306.h"
 #include "test.h"
 #include "anim.h"
 #include "pca9685.h"
 #include <stdbool.h>
+
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
