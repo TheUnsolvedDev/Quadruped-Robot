@@ -47,7 +47,7 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
  ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.h \
  ../USB_HOST/App/usb_host.h ../Core/Inc/fonts.h ../Core/Inc/ssd1306.h \
  ../Core/Inc/fonts.h ../Core/Inc/test.h ../Core/Inc/anim.h \
- ../Core/Inc/pca9685.h
+ ../Core/Inc/pca9685.h ../Core/Inc/ring_buffer.h
 
 ../Core/Inc/main.h:
 
@@ -156,3 +156,5 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
 ../Core/Inc/anim.h:
 
 ../Core/Inc/pca9685.h:
+
+../Core/Inc/ring_buffer.h:

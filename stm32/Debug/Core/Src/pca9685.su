@@ -9,4 +9,4 @@ pca9685.c:67:16:PCA9685_SetPwmFrequency	40	static
 pca9685.c:96:16:PCA9685_SetPwm	40	static
 pca9685.c:115:16:PCA9685_SetPin	16	static
 pca9685.c:148:16:PCA9685_SetServoAngle	24	static
-pca9685.c:160:16:PCA9685_Init	16	static
+pca9685.c:161:16:PCA9685_Init	16	static

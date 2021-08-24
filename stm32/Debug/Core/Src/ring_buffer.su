@@ -1,0 +1,6 @@
+ring_buffer.c:10:6:init_queue	16	static
+ring_buffer.c:19:6:queue_empty	16	static
+ring_buffer.c:24:6:queue_full	16	static
+ring_buffer.c:29:6:queue_destroy	16	static
+ring_buffer.c:34:6:enqueue	16	static
+ring_buffer.c:47:6:dequeue	24	static
